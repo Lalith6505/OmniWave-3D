@@ -1,0 +1,1155 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>OmniWave 3D | Quantum Sensory Lab & Acoustic Chrono-Scanner</title>
+    <meta name="description" content="OmniWave 3D: Active ultrasonic sonar echolocation, 400Hz MEMS seismograph, optical strobe oscilloscope, and procedural binaural radio. Engineered by Lalith Madanayake.">
+    <meta name="keywords" content="OmniWave 3D, Android 16, ultrasonic sonar, echolocation, seismograph, optical oscilloscope, binaural drone, Lalith Madanayake">
+    <meta name="author" content="Lalith Madanayake">
+    
+    <!-- OpenGraph / Social Sharing -->
+    <meta property="og:title" content="OmniWave 3D: Quantum Sensory Lab & Acoustic Chrono-Scanner">
+    <meta property="og:description" content="100% Offline Native Multi-Spectral Physical Sensory Workstation for Android 16. Active 19.2 kHz sonar, 400 Hz seismograph, optical oscilloscope, and binaural radio.">
+    <meta property="og:image" content="feature_banner_1024x500.png">
+    <meta property="og:type" content="website">
+
+    <link rel="icon" type="image/png" href="icon_512.png">
+
+    <style>
+        :root {
+            --bg-deep: #090d14;
+            --bg-surface: #0e131e;
+            --bg-card: #141c2b;
+            --border-bezel: #26354d;
+            --border-highlight: #3b4f70;
+            --text-main: #f1f5f9;
+            --text-muted: #94a3b8;
+            --text-dim: #64748b;
+            
+            --phosphor-green: #00ff66;
+            --phosphor-glow: rgba(0, 255, 102, 0.4);
+            --amber-tube: #ff9900;
+            --amber-glow: rgba(255, 153, 0, 0.4);
+            --cyber-cyan: #00e5ff;
+            --cyber-glow: rgba(0, 229, 255, 0.4);
+            --brass-gold: #ffb800;
+            --brass-dark: #996515;
+            --hazard-red: #ff3344;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+            background-color: var(--bg-deep);
+            color: var(--text-main);
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+
+        /* Ambient retro grid background */
+        body::before {
+            content: "";
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: 
+                radial-gradient(circle at 15% 10%, rgba(0, 255, 102, 0.04) 0%, transparent 40%),
+                radial-gradient(circle at 85% 90%, rgba(0, 229, 255, 0.04) 0%, transparent 40%),
+                linear-gradient(rgba(38, 53, 77, 0.15) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(38, 53, 77, 0.15) 1px, transparent 1px);
+            background-size: 100% 100%, 100% 100%, 40px 40px, 40px 40px;
+            pointer-events: none;
+            z-index: -1;
+        }
+
+        /* Navigation Bar */
+        .navbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 16px 40px;
+            background: rgba(14, 19, 30, 0.9);
+            backdrop-filter: blur(14px);
+            border-bottom: 1px solid var(--border-bezel);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+
+        .brand {
+            display: flex;
+            align-items: center;
+            gap: 14px;
+            text-decoration: none;
+            color: var(--text-main);
+        }
+
+        .brand img {
+            width: 42px;
+            height: 42px;
+            border-radius: 10px;
+            border: 1.5px solid var(--brass-gold);
+            box-shadow: 0 0 10px rgba(255, 184, 0, 0.3);
+        }
+
+        .brand-text h1 {
+            font-size: 1.15rem;
+            font-family: "Courier New", Courier, monospace;
+            letter-spacing: 1.5px;
+            font-weight: 800;
+            color: #ffffff;
+        }
+
+        .brand-text span {
+            font-size: 0.72rem;
+            font-family: monospace;
+            color: var(--phosphor-green);
+            display: block;
+            letter-spacing: 1px;
+        }
+
+        .nav-links {
+            display: flex;
+            align-items: center;
+            gap: 24px;
+            list-style: none;
+        }
+
+        .nav-links a {
+            color: var(--text-muted);
+            text-decoration: none;
+            font-size: 0.9rem;
+            font-family: monospace;
+            transition: color 0.2s ease;
+        }
+
+        .nav-links a:hover {
+            color: var(--brass-gold);
+        }
+
+        .btn-download-nav {
+            background: linear-gradient(135deg, var(--brass-gold), var(--brass-dark));
+            color: var(--bg-deep) !important;
+            font-weight: 700 !important;
+            padding: 8px 18px;
+            border-radius: 6px;
+            box-shadow: 0 0 12px rgba(255, 184, 0, 0.35);
+            transition: transform 0.2s ease, box-shadow 0.2s ease !important;
+        }
+
+        .btn-download-nav:hover {
+            transform: translateY(-1px);
+            box-shadow: 0 0 18px rgba(255, 184, 0, 0.55);
+        }
+
+        /* Container */
+        .container {
+            max-width: 1140px;
+            margin: 0 auto;
+            padding: 0 24px;
+        }
+
+        /* Hero Section */
+        .hero {
+            padding: 60px 0 40px;
+            text-align: center;
+        }
+
+        .status-chip {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            background: rgba(0, 255, 102, 0.1);
+            color: var(--phosphor-green);
+            border: 1px solid rgba(0, 255, 102, 0.3);
+            border-radius: 20px;
+            padding: 6px 16px;
+            font-size: 0.8rem;
+            font-family: monospace;
+            font-weight: 700;
+            margin-bottom: 24px;
+            letter-spacing: 0.8px;
+        }
+
+        .status-chip .dot {
+            width: 8px;
+            height: 8px;
+            background: var(--phosphor-green);
+            border-radius: 50%;
+            box-shadow: 0 0 8px var(--phosphor-green);
+            animation: pulse 1.8s infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { opacity: 1; transform: scale(1); }
+            50% { opacity: 0.4; transform: scale(0.85); }
+        }
+
+        .hero h2 {
+            font-size: 3rem;
+            font-weight: 800;
+            letter-spacing: -1px;
+            color: #ffffff;
+            line-height: 1.15;
+            margin-bottom: 16px;
+        }
+
+        .hero h2 span.highlight {
+            background: linear-gradient(135deg, #ffffff 20%, var(--cyber-cyan) 60%, var(--phosphor-green) 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .hero p.tagline {
+            font-size: 1.15rem;
+            color: var(--text-muted);
+            max-width: 780px;
+            margin: 0 auto 36px;
+            line-height: 1.6;
+        }
+
+        .hero-actions {
+            display: flex;
+            justify-content: center;
+            gap: 16px;
+            flex-wrap: wrap;
+            margin-bottom: 48px;
+        }
+
+        .btn-primary {
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            background: linear-gradient(135deg, #ffb800, #d97706);
+            color: #090d14;
+            font-weight: 800;
+            font-family: monospace;
+            font-size: 1rem;
+            padding: 14px 28px;
+            border-radius: 8px;
+            text-decoration: none;
+            box-shadow: 0 0 20px rgba(255, 184, 0, 0.35);
+            transition: all 0.2s ease;
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 0 28px rgba(255, 184, 0, 0.6);
+        }
+
+        .btn-secondary {
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            background: var(--bg-surface);
+            color: var(--text-main);
+            border: 1px solid var(--border-bezel);
+            font-weight: 600;
+            font-family: monospace;
+            font-size: 1rem;
+            padding: 14px 24px;
+            border-radius: 8px;
+            text-decoration: none;
+            transition: all 0.2s ease;
+        }
+
+        .btn-secondary:hover {
+            border-color: var(--cyber-cyan);
+            color: var(--cyber-cyan);
+            background: rgba(0, 229, 255, 0.08);
+        }
+
+        /* Interactive CRT Lab Instrument Deck */
+        .crt-lab-deck {
+            background: var(--bg-surface);
+            border: 3px solid var(--border-bezel);
+            border-radius: 20px;
+            padding: 20px;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.6), inset 0 0 20px rgba(0, 0, 0, 0.4);
+            margin-bottom: 60px;
+            position: relative;
+        }
+
+        .deck-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1px solid var(--border-bezel);
+            padding-bottom: 14px;
+            margin-bottom: 16px;
+        }
+
+        .deck-title {
+            font-family: monospace;
+            font-size: 0.95rem;
+            color: var(--brass-gold);
+            font-weight: bold;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .audio-toggle-btn {
+            background: var(--bg-card);
+            border: 1px solid var(--border-bezel);
+            color: var(--text-muted);
+            padding: 6px 14px;
+            border-radius: 6px;
+            font-family: monospace;
+            font-size: 0.8rem;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .audio-toggle-btn:hover {
+            border-color: var(--phosphor-green);
+            color: var(--phosphor-green);
+        }
+
+        /* The CRT Screen Housing */
+        .crt-monitor {
+            background: #03070e;
+            border: 2px solid rgba(0, 255, 102, 0.3);
+            border-radius: 14px;
+            position: relative;
+            overflow: hidden;
+            box-shadow: inset 0 0 30px rgba(0, 0, 0, 0.9);
+        }
+
+        /* Scanlines Overlay */
+        .crt-monitor::after {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.35) 50%);
+            background-size: 100% 4px;
+            pointer-events: none;
+            z-index: 5;
+        }
+
+        #crtCanvas {
+            display: block;
+            width: 100%;
+            height: 380px;
+        }
+
+        /* 4-Domain Selector Tabs */
+        .domain-tabs {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 12px;
+            margin-top: 18px;
+        }
+
+        .tab-btn {
+            background: var(--bg-card);
+            border: 1px solid var(--border-bezel);
+            border-radius: 10px;
+            padding: 14px 10px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.25s ease;
+            color: var(--text-muted);
+            font-family: monospace;
+        }
+
+        .tab-btn:hover {
+            border-color: var(--text-dim);
+            transform: translateY(-2px);
+        }
+
+        .tab-btn.active-sonar {
+            background: rgba(0, 255, 102, 0.12);
+            border-color: var(--phosphor-green);
+            color: var(--phosphor-green);
+            box-shadow: 0 0 16px rgba(0, 255, 102, 0.25);
+        }
+
+        .tab-btn.active-seismo {
+            background: rgba(255, 153, 0, 0.12);
+            border-color: var(--amber-tube);
+            color: var(--amber-tube);
+            box-shadow: 0 0 16px rgba(255, 153, 0, 0.25);
+        }
+
+        .tab-btn.active-photon {
+            background: rgba(0, 229, 255, 0.12);
+            border-color: var(--cyber-cyan);
+            color: var(--cyber-cyan);
+            box-shadow: 0 0 16px rgba(0, 229, 255, 0.25);
+        }
+
+        .tab-btn.active-chrono {
+            background: rgba(255, 184, 0, 0.12);
+            border-color: var(--brass-gold);
+            color: var(--brass-gold);
+            box-shadow: 0 0 16px rgba(255, 184, 0, 0.25);
+        }
+
+        .tab-btn .tab-freq {
+            display: block;
+            font-size: 0.72rem;
+            color: var(--text-dim);
+            margin-top: 4px;
+        }
+
+        .tab-btn.active-sonar .tab-freq { color: var(--phosphor-green); }
+        .tab-btn.active-seismo .tab-freq { color: var(--amber-tube); }
+        .tab-btn.active-photon .tab-freq { color: var(--cyber-cyan); }
+        .tab-btn.active-chrono .tab-freq { color: var(--brass-gold); }
+
+        /* Detailed Feature Cards */
+        .section-heading {
+            text-align: center;
+            margin-bottom: 40px;
+        }
+
+        .section-heading h3 {
+            font-size: 2rem;
+            color: #ffffff;
+            margin-bottom: 8px;
+        }
+
+        .section-heading p {
+            color: var(--text-muted);
+            font-family: monospace;
+            font-size: 0.95rem;
+        }
+
+        .domains-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 24px;
+            margin-bottom: 60px;
+        }
+
+        .domain-card {
+            background: var(--bg-surface);
+            border: 1px solid var(--border-bezel);
+            border-radius: 14px;
+            padding: 28px;
+            position: relative;
+            overflow: hidden;
+            transition: all 0.25s ease;
+        }
+
+        .domain-card:hover {
+            border-color: var(--border-highlight);
+            transform: translateY(-3px);
+            box-shadow: 0 12px 30px rgba(0, 0, 0, 0.4);
+        }
+
+        .domain-card::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 4px;
+            height: 100%;
+        }
+
+        .domain-card.card-sonar::before { background: var(--phosphor-green); }
+        .domain-card.card-seismo::before { background: var(--amber-tube); }
+        .domain-card.card-photon::before { background: var(--cyber-cyan); }
+        .domain-card.card-chrono::before { background: var(--brass-gold); }
+
+        .domain-card .card-badge {
+            font-family: monospace;
+            font-size: 0.75rem;
+            font-weight: bold;
+            padding: 3px 8px;
+            border-radius: 4px;
+            display: inline-block;
+            margin-bottom: 12px;
+        }
+
+        .card-sonar .card-badge { background: rgba(0, 255, 102, 0.15); color: var(--phosphor-green); }
+        .card-seismo .card-badge { background: rgba(255, 153, 0, 0.15); color: var(--amber-tube); }
+        .card-photon .card-badge { background: rgba(0, 229, 255, 0.15); color: var(--cyber-cyan); }
+        .card-chrono .card-badge { background: rgba(255, 184, 0, 0.15); color: var(--brass-gold); }
+
+        .domain-card h4 {
+            font-size: 1.35rem;
+            color: #ffffff;
+            margin-bottom: 12px;
+        }
+
+        .domain-card p {
+            color: var(--text-muted);
+            font-size: 0.95rem;
+            margin-bottom: 16px;
+            line-height: 1.6;
+        }
+
+        .domain-card ul {
+            padding-left: 20px;
+            color: var(--text-muted);
+            font-size: 0.9rem;
+        }
+
+        .domain-card li {
+            margin-bottom: 8px;
+        }
+
+        /* Technical Specs Table */
+        .specs-section {
+            background: var(--bg-surface);
+            border: 1px solid var(--border-bezel);
+            border-radius: 16px;
+            padding: 32px;
+            margin-bottom: 60px;
+        }
+
+        .specs-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 16px;
+            margin-top: 24px;
+        }
+
+        .spec-item {
+            background: var(--bg-card);
+            border: 1px solid var(--border-bezel);
+            border-radius: 10px;
+            padding: 16px;
+            text-align: center;
+        }
+
+        .spec-item .label {
+            font-family: monospace;
+            font-size: 0.75rem;
+            color: var(--text-dim);
+            margin-bottom: 6px;
+        }
+
+        .spec-item .value {
+            font-family: monospace;
+            font-size: 1.05rem;
+            font-weight: bold;
+            color: #ffffff;
+        }
+
+        /* Privacy Policy Embedded Preview */
+        .privacy-preview {
+            background: var(--bg-surface);
+            border: 1px solid var(--border-bezel);
+            border-top: 3px solid var(--brass-gold);
+            border-radius: 16px;
+            padding: 36px;
+            margin-bottom: 60px;
+        }
+
+        .privacy-preview h3 {
+            font-size: 1.6rem;
+            color: #ffffff;
+            margin-bottom: 12px;
+        }
+
+        .privacy-preview p {
+            color: var(--text-muted);
+            margin-bottom: 20px;
+            line-height: 1.7;
+        }
+
+        .privacy-points {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 16px;
+            margin-bottom: 24px;
+        }
+
+        .p-box {
+            background: var(--bg-card);
+            border: 1px solid var(--border-bezel);
+            border-radius: 8px;
+            padding: 16px;
+            font-size: 0.9rem;
+        }
+
+        .p-box strong {
+            display: block;
+            color: var(--phosphor-green);
+            margin-bottom: 6px;
+            font-family: monospace;
+        }
+
+        /* Developer Footer */
+        footer {
+            background: #06090e;
+            border-top: 1px solid var(--border-bezel);
+            padding: 48px 0 32px;
+            text-align: center;
+            color: var(--text-dim);
+            font-size: 0.9rem;
+        }
+
+        .footer-brand {
+            font-family: monospace;
+            font-size: 1.2rem;
+            font-weight: bold;
+            color: #ffffff;
+            margin-bottom: 8px;
+        }
+
+        .footer-dev {
+            color: var(--text-muted);
+            margin-bottom: 20px;
+        }
+
+        .footer-dev a {
+            color: var(--cyber-cyan);
+            text-decoration: none;
+        }
+
+        .footer-links {
+            display: flex;
+            justify-content: center;
+            gap: 24px;
+            margin-bottom: 24px;
+        }
+
+        .footer-links a {
+            color: var(--text-muted);
+            text-decoration: none;
+            font-family: monospace;
+            font-size: 0.85rem;
+        }
+
+        .footer-links a:hover {
+            color: var(--brass-gold);
+        }
+
+        @media (max-width: 860px) {
+            .hero h2 { font-size: 2.2rem; }
+            .domain-tabs { grid-template-columns: repeat(2, 1fr); }
+            .domains-grid { grid-template-columns: 1fr; }
+            .specs-grid { grid-template-columns: repeat(2, 1fr); }
+            .privacy-points { grid-template-columns: 1fr; }
+            .navbar { padding: 14px 20px; }
+            .nav-links { display: none; }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Navigation Header -->
+    <nav class="navbar">
+        <a href="index.html" class="brand">
+            <img src="icon_512.png" alt="OmniWave 3D Icon">
+            <div class="brand-text">
+                <h1>OMNIWAVE 3D</h1>
+                <span>QUANTUM SENSORY LAB</span>
+            </div>
+        </a>
+        <ul class="nav-links">
+            <li><a href="#lab-terminal">Lab Terminal</a></li>
+            <li><a href="#domains">4 Domains</a></li>
+            <li><a href="#specifications">Specs</a></li>
+            <li><a href="privacy.html">Privacy Policy</a></li>
+            <li><a href="OmniWave-1.0.0-release.apk" class="btn-download-nav">Download APK</a></li>
+        </ul>
+    </nav>
+
+    <!-- Main Container -->
+    <div class="container">
+
+        <!-- Hero Section -->
+        <section class="hero">
+            <div class="status-chip">
+                <span class="dot"></span>
+                <span>SYSTEM ACTIVE // 100% OFFLINE NATIVE // TARGET SDK 36</span>
+            </div>
+            <h2>
+                The Physical Universe Is Speaking.<br>
+                <span class="highlight">OmniWave 3D Listens.</span>
+            </h2>
+            <p class="tagline">
+                Transform your Android smartphone into a high-precision multi-spectral laboratory. 
+                Experience active 19.2 kHz ultrasonic echolocation, 400 Hz MEMS seismology, optical strobe hazard detection, 
+                and procedural binaural drone synthesis.
+            </p>
+            <div class="hero-actions">
+                <a href="OmniWave-1.0.0-release.apk" class="btn-primary" download>
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="7 10 12 15 17 10"></polyline><line x1="12" y1="15" x2="12" y2="3"></line></svg>
+                    Download Release APK (v1.0.0)
+                </a>
+                <a href="privacy.html" class="btn-secondary">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path></svg>
+                    View Privacy Policy
+                </a>
+            </div>
+        </section>
+
+        <!-- Interactive CRT Lab Terminal -->
+        <section id="lab-terminal" class="crt-lab-deck">
+            <div class="deck-header">
+                <div class="deck-title">
+                    <span id="activeDomainLabel" style="color: var(--phosphor-green);">ECHO-SONAR 3D // 19.2 kHz RADAR SCOPE</span>
+                </div>
+                <button id="audioToggleBtn" class="audio-toggle-btn">🔊 Enable Audio Chime</button>
+            </div>
+
+            <div class="crt-monitor">
+                <canvas id="crtCanvas" width="900" height="380"></canvas>
+            </div>
+
+            <!-- Domain Switcher Buttons -->
+            <div class="domain-tabs">
+                <button class="tab-btn active-sonar" onclick="switchDomain('sonar')">
+                    <strong>📡 ECHO-SONAR</strong>
+                    <span class="tab-freq">18.5 – 20.0 kHz</span>
+                </button>
+                <button class="tab-btn" onclick="switchDomain('seismo')">
+                    <strong>⚡ SEISMO-CORE</strong>
+                    <span class="tab-freq">0.5 – 400.0 Hz</span>
+                </button>
+                <button class="tab-btn" onclick="switchDomain('photon')">
+                    <strong>💡 PHOTON-STROBE</strong>
+                    <span class="tab-freq">50 Hz – 10.0 kHz</span>
+                </button>
+                <button class="tab-btn" onclick="switchDomain('chrono')">
+                    <strong>📻 CHRONO-RADIO</strong>
+                    <span class="tab-freq">432 Hz Binaural</span>
+                </button>
+            </div>
+        </section>
+
+        <!-- 4 Sensory Domains Showcase -->
+        <section id="domains">
+            <div class="section-heading">
+                <h3>Four Fundamental Physics Domains</h3>
+                <p>Engineered without pre-recorded samples. 100% native math, hardware sensors, and procedural PCM audio.</p>
+            </div>
+
+            <div class="domains-grid">
+                <!-- Domain 1: Sonar -->
+                <div class="domain-card card-sonar">
+                    <span class="card-badge">ACOUSTICS</span>
+                    <h4>📡 EchoSonar 3D</h4>
+                    <p>
+                        Active acoustic echolocation utilizing near-ultrasonic sound waves. Directional bursts bounce off physical obstacles in pitch-black environments.
+                    </p>
+                    <ul>
+                        <li><strong>Submarine CRT Radar:</strong> 45 RPM rotating beam with calibrated distance rings (25cm, 50cm, 75cm, 100cm).</li>
+                        <li><strong>Acoustic Doppler Shift:</strong> Recognizes rapid hand gestures hovering above the phone screen.</li>
+                        <li><strong>Darkness Navigation:</strong> Maps physical proximity without using light or cameras.</li>
+                    </ul>
+                </div>
+
+                <!-- Domain 2: Seismo -->
+                <div class="domain-card card-seismo">
+                    <span class="card-badge">KINETICS</span>
+                    <h4>⚡ Seismo-Core</h4>
+                    <p>
+                        High-frequency 400 Hz MEMS kinetic seismograph detecting subtle surface tremors, machinery vibrations, and footsteps.
+                    </p>
+                    <ul>
+                        <li><strong>Butterworth Gravity-Isolation:</strong> Strips standard 9.8 m/s² gravity vector to isolate pure micro-tremors.</li>
+                        <li><strong>Machinery Diagnostic Stethoscope:</strong> Place phone on motors or 3D printers to estimate peak RPM and harmonic stability.</li>
+                        <li><strong>The "Stealth Table" Party Game:</strong> Place phone on a table—anyone who thumps or walks too heavily triggers the klaxon alarm!</li>
+                    </ul>
+                </div>
+
+                <!-- Domain 3: Photon -->
+                <div class="domain-card card-photon">
+                    <span class="card-badge">OPTICS</span>
+                    <h4>💡 Photon-Strobe</h4>
+                    <p>
+                        Optical oscilloscope measuring invisible high-frequency light modulation, LED driver ripple, and circadian eye ergonomics.
+                    </p>
+                    <ul>
+                        <li><strong>Strobe Hazard Detection:</strong> Exposes 100Hz/120Hz ballast flicker that causes ocular fatigue and migraines.</li>
+                        <li><strong>Circadian Kelvin Analysis:</strong> Estimates lighting color temperature (2200K warm candle to 6500K daylight).</li>
+                        <li><strong>Bulb Benchmark Presets:</strong> Compare clean DC illumination vs substandard AC mains ballasts.</li>
+                    </ul>
+                </div>
+
+                <!-- Domain 4: Chrono -->
+                <div class="domain-card card-chrono">
+                    <span class="card-badge">RESONANCE</span>
+                    <h4>📻 Chrono-Harmonics</h4>
+                    <p>
+                        Vintage analog radio tuner coupled with a real-time procedural 16-bit PCM binaural drone synthesizer.
+                    </p>
+                    <ul>
+                        <li><strong>4 Historical Epochs:</strong> Alexandria (320 BCE), Kyoto (1600 CE), Paris (1928 CE), and Orbital (2142 CE).</li>
+                        <li><strong>Cross-Wave Synergy:</strong> Table vibrations pitch carrier frequencies; echo proximity opens filter brightness; light flicker adds vibrato.</li>
+                        <li><strong>Continuous Procedural Sound:</strong> Zero static audio files—synthesized sample-by-sample in local RAM.</li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+
+        <!-- Technical Specifications -->
+        <section id="specifications" class="specs-section">
+            <div class="section-heading" style="margin-bottom: 20px;">
+                <h3>Production Technical Specifications</h3>
+                <p>Crafted to strict Android 16 standards with zero third-party telemetry.</p>
+            </div>
+
+            <div class="specs-grid">
+                <div class="spec-item">
+                    <div class="label">TARGET PLATFORM</div>
+                    <div class="value" style="color: var(--cyber-cyan);">Android 16 (API 36)</div>
+                </div>
+                <div class="spec-item">
+                    <div class="label">MINIMUM SDK</div>
+                    <div class="value">Android 7.0 (API 24)</div>
+                </div>
+                <div class="spec-item">
+                    <div class="label">SIGNATURE SCHEME</div>
+                    <div class="value" style="color: var(--phosphor-green);">APK Scheme v2</div>
+                </div>
+                <div class="spec-item">
+                    <div class="label">PACKAGE ID</div>
+                    <div class="value" style="font-size: 0.85rem;">com.omniwave.sensorylab</div>
+                </div>
+                <div class="spec-item">
+                    <div class="label">AUDIO ARCHITECTURE</div>
+                    <div class="value">16-Bit PCM 44.1 kHz</div>
+                </div>
+                <div class="spec-item">
+                    <div class="label">MEMS SAMPLING</div>
+                    <div class="value" style="color: var(--amber-tube);">Up to 400 Hz</div>
+                </div>
+                <div class="spec-item">
+                    <div class="label">NETWORK ACCESS</div>
+                    <div class="value" style="color: var(--phosphor-green);">0% (100% Offline)</div>
+                </div>
+                <div class="spec-item">
+                    <div class="label">TRACKING / ADS</div>
+                    <div class="value" style="color: var(--brass-gold);">ZERO (Pure Native)</div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Privacy Policy Preview & Anchor -->
+        <section id="privacy" class="privacy-preview">
+            <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 12px; margin-bottom: 16px;">
+                <h3>🛡️ Privacy Policy & Security Guarantee</h3>
+                <a href="privacy.html" class="nav-btn" style="display: inline-block;">Read Full Privacy Document →</a>
+            </div>
+            <p>
+                OmniWave 3D is designed with absolute privacy principles. All sensor computations (ultrasonic reflections, accelerometer kinematics, and optical flicker) execute exclusively in volatile RAM and are instantly discarded.
+            </p>
+            <div class="privacy-points">
+                <div class="p-box">
+                    <strong>MICROPHONE PERMISSION</strong>
+                    Used strictly for acoustic time-of-flight echolocation. Zero audio is ever recorded, stored to local disk, or transmitted over any network.
+                </div>
+                <div class="p-box">
+                    <strong>ZERO EXTERNAL SERVERS</strong>
+                    The Android Manifest intentionally excludes internet permissions. The application cannot communicate with external servers even if prompted.
+                </div>
+                <div class="p-box">
+                    <strong>CHILD-SAFE & COPPA</strong>
+                    Because no personal identifiers or telemetry are ever collected, OmniWave 3D complies with global COPPA, GDPR, and Google Play family standards.
+                </div>
+            </div>
+        </section>
+
+    </div>
+
+    <!-- Footer -->
+    <footer>
+        <div class="container">
+            <div class="footer-brand">OMNIWAVE 3D</div>
+            <div class="footer-dev">
+                Lead Engineer & Designer: <strong>Lalith Madanayake</strong><br>
+                Colombo, Western Province, Sri Lanka &middot; <a href="mailto:lmadanayake@gmail.com">lmadanayake@gmail.com</a>
+            </div>
+            <div class="footer-links">
+                <a href="index.html">Home Terminal</a>
+                <a href="privacy.html">Privacy Policy</a>
+                <a href="OmniWave-1.0.0-release.apk">Download Release APK</a>
+                <a href="https://github.com/lmadanayake" target="_blank" rel="noopener">Developer GitHub</a>
+            </div>
+            <p style="color: var(--text-dim); font-size: 0.8rem; font-family: monospace;">
+                &copy; 2026 Lalith Madanayake. All rights reserved. OmniWave 3D is a trademark of Lalith Madanayake.
+            </p>
+        </div>
+    </footer>
+
+    <!-- Interactive CRT Canvas Script -->
+    <script>
+        const canvas = document.getElementById('crtCanvas');
+        const ctx = canvas.getContext('2d');
+        const label = document.getElementById('activeDomainLabel');
+        const audioBtn = document.getElementById('audioToggleBtn');
+
+        let currentDomain = 'sonar';
+        let sweepAngle = 0;
+        let seismoHistory = Array(120).fill(0);
+        let photonTime = 0;
+        let chronoNeedle = 0.25;
+        let audioEnabled = false;
+        let audioCtx = null;
+
+        // Sound chime generator using Web Audio API
+        function playChime(freq = 880, type = 'sine', duration = 0.08) {
+            if (!audioEnabled) return;
+            try {
+                if (!audioCtx) audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+                if (audioCtx.state === 'suspended') audioCtx.resume();
+                
+                const osc = audioCtx.createOscillator();
+                const gain = audioCtx.createGain();
+                osc.type = type;
+                osc.frequency.setValueAtTime(freq, audioCtx.currentTime);
+                gain.gain.setValueAtTime(0.15, audioCtx.currentTime);
+                gain.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + duration);
+                osc.connect(gain);
+                gain.connect(audioCtx.destination);
+                osc.start();
+                osc.stop(audioCtx.currentTime + duration);
+            } catch (e) {}
+        }
+
+        audioBtn.addEventListener('click', () => {
+            audioEnabled = !audioEnabled;
+            audioBtn.textContent = audioEnabled ? '🔊 Sound Enabled' : '🔇 Audio Muted';
+            audioBtn.style.color = audioEnabled ? '#00ff66' : '#94a3b8';
+            if (audioEnabled) playChime(1200, 'sine', 0.1);
+        });
+
+        function switchDomain(domain) {
+            currentDomain = domain;
+            document.querySelectorAll('.tab-btn').forEach(btn => {
+                btn.className = 'tab-btn';
+            });
+
+            if (domain === 'sonar') {
+                event.currentTarget.classList.add('active-sonar');
+                label.textContent = "ECHO-SONAR 3D // 19.2 kHz ACTIVE RADAR";
+                label.style.color = "#00ff66";
+                playChime(1920, 'sine', 0.08);
+            } else if (domain === 'seismo') {
+                event.currentTarget.classList.add('active-seismo');
+                label.textContent = "SEISMO-CORE // 400 Hz MEMS SEISMOGRAM";
+                label.style.color = "#ff9900";
+                playChime(220, 'triangle', 0.12);
+            } else if (domain === 'photon') {
+                event.currentTarget.classList.add('active-photon');
+                label.textContent = "PHOTON-STROBE // OPTICAL RIPPLE OSCILLOSCOPE";
+                label.style.color = "#00e5ff";
+                playChime(640, 'sine', 0.09);
+            } else if (domain === 'chrono') {
+                event.currentTarget.classList.add('active-chrono');
+                label.textContent = "CHRONO-HARMONICS // CROSS-WAVE TIME RESONATOR";
+                label.style.color = "#ffb800";
+                playChime(432, 'sine', 0.2);
+            }
+        }
+
+        function resizeCanvas() {
+            const rect = canvas.getBoundingClientRect();
+            canvas.width = rect.width * window.devicePixelRatio;
+            canvas.height = rect.height * window.devicePixelRatio;
+            ctx.scale(window.devicePixelRatio, window.devicePixelRatio);
+        }
+        window.addEventListener('resize', resizeCanvas);
+        resizeCanvas();
+
+        function render() {
+            const w = canvas.getBoundingClientRect().width;
+            const h = canvas.getBoundingClientRect().height;
+
+            ctx.fillStyle = "#03070e";
+            ctx.fillRect(0, 0, w, h);
+
+            // Graticule grid lines
+            ctx.strokeStyle = "rgba(38, 53, 77, 0.4)";
+            ctx.lineWidth = 1;
+            for (let x = 0; x < w; x += 40) {
+                ctx.beginPath(); ctx.moveTo(x, 0); ctx.lineTo(x, h); ctx.stroke();
+            }
+            for (let y = 0; y < h; y += 40) {
+                ctx.beginPath(); ctx.moveTo(0, y); ctx.lineTo(w, y); ctx.stroke();
+            }
+
+            if (currentDomain === 'sonar') {
+                renderSonar(w, h);
+            } else if (currentDomain === 'seismo') {
+                renderSeismo(w, h);
+            } else if (currentDomain === 'photon') {
+                renderPhoton(w, h);
+            } else if (currentDomain === 'chrono') {
+                renderChrono(w, h);
+            }
+
+            requestAnimationFrame(render);
+        }
+
+        function renderSonar(w, h) {
+            const cx = w / 2;
+            const cy = h / 2;
+            const maxR = Math.min(cx, cy) * 0.85;
+
+            // Concentric range rings
+            ctx.strokeStyle = "rgba(0, 255, 102, 0.25)";
+            ctx.lineWidth = 1.5;
+            for (let r = maxR * 0.25; r <= maxR; r += maxR * 0.25) {
+                ctx.beginPath();
+                ctx.arc(cx, cy, r, 0, Math.PI * 2);
+                ctx.stroke();
+            }
+
+            // Radar beam sweep
+            sweepAngle = (sweepAngle + 0.035) % (Math.PI * 2);
+
+            // Beam gradient tail
+            for (let a = sweepAngle - 0.5; a < sweepAngle; a += 0.05) {
+                const alpha = ((a - (sweepAngle - 0.5)) / 0.5) * 0.35;
+                ctx.strokeStyle = `rgba(0, 255, 102, ${alpha})`;
+                ctx.lineWidth = 3;
+                ctx.beginPath();
+                ctx.moveTo(cx, cy);
+                ctx.lineTo(cx + Math.cos(a) * maxR, cy + Math.sin(a) * maxR);
+                ctx.stroke();
+            }
+
+            // Leading bright beam
+            ctx.strokeStyle = "#ffffff";
+            ctx.lineWidth = 2;
+            ctx.beginPath();
+            ctx.moveTo(cx, cy);
+            ctx.lineTo(cx + Math.cos(sweepAngle) * maxR, cy + Math.sin(sweepAngle) * maxR);
+            ctx.stroke();
+
+            // Contact blips
+            const blip1X = cx + Math.cos(1.2) * (maxR * 0.65);
+            const blip1Y = cy + Math.sin(1.2) * (maxR * 0.65);
+            ctx.fillStyle = "#00ff66";
+            ctx.shadowColor = "#00ff66";
+            ctx.shadowBlur = 12;
+            ctx.beginPath(); ctx.arc(blip1X, blip1Y, 5, 0, Math.PI * 2); ctx.fill();
+
+            const blip2X = cx + Math.cos(3.8) * (maxR * 0.45);
+            const blip2Y = cy + Math.sin(3.8) * (maxR * 0.45);
+            ctx.beginPath(); ctx.arc(blip2X, blip2Y, 4, 0, Math.PI * 2); ctx.fill();
+            ctx.shadowBlur = 0;
+
+            // Telemetry overlay
+            ctx.fillStyle = "#00ff66";
+            ctx.font = "12px monospace";
+            ctx.fillText("BEAM: 19.20 kHz", 20, 30);
+            ctx.fillText("TARGET: 38.4 cm [LOCKED]", 20, 50);
+            ctx.fillText("DOPPLER: -1.2 cm/s", 20, 70);
+        }
+
+        function renderSeismo(w, h) {
+            const midY = h / 2;
+            seismoHistory.shift();
+            const jitter = (Math.random() - 0.5) * 6;
+            const thump = (Math.sin(Date.now() * 0.005) > 0.8) ? Math.sin(Date.now() * 0.08) * 45 : 0;
+            seismoHistory.push(jitter + thump);
+
+            ctx.strokeStyle = "rgba(255, 153, 0, 0.4)";
+            ctx.lineWidth = 1;
+            ctx.beginPath(); ctx.moveTo(0, midY); ctx.lineTo(w, midY); ctx.stroke();
+
+            // Trace path
+            ctx.strokeStyle = "#ff9900";
+            ctx.lineWidth = 2.5;
+            ctx.shadowColor = "#ff9900";
+            ctx.shadowBlur = 10;
+            ctx.beginPath();
+            const step = w / (seismoHistory.length - 1);
+            for (let i = 0; i < seismoHistory.length; i++) {
+                const x = i * step;
+                const y = midY - seismoHistory[i];
+                if (i === 0) ctx.moveTo(x, y); else ctx.lineTo(x, y);
+            }
+            ctx.stroke();
+            ctx.shadowBlur = 0;
+
+            // Telemetry overlay
+            ctx.fillStyle = "#ff9900";
+            ctx.font = "12px monospace";
+            ctx.fillText("SAMPLING: 400 Hz MEMS", 20, 30);
+            ctx.fillText("RMS MAG: 0.18 m/s²", 20, 50);
+            ctx.fillText("STETHOSCOPE: 1,740 RPM", 20, 70);
+            ctx.fillText("STEALTH TABLE: ARMED (00:42)", w - 240, 30);
+        }
+
+        function renderPhoton(w, h) {
+            photonTime += 0.06;
+            const midY = h / 2;
+
+            ctx.strokeStyle = "#00e5ff";
+            ctx.lineWidth = 2.5;
+            ctx.shadowColor = "#00e5ff";
+            ctx.shadowBlur = 10;
+            ctx.beginPath();
+            for (let x = 0; x < w; x += 4) {
+                const wave = Math.sin((x * 0.04) + photonTime) * 35;
+                const ripple = Math.sin((x * 0.2) + photonTime * 2) * 8;
+                const y = midY + wave + ripple;
+                if (x === 0) ctx.moveTo(x, y); else ctx.lineTo(x, y);
+            }
+            ctx.stroke();
+            ctx.shadowBlur = 0;
+
+            ctx.fillStyle = "#00e5ff";
+            ctx.font = "12px monospace";
+            ctx.fillText("ILLUMINANCE: 380 LUX", 20, 30);
+            ctx.fillText("OPTICAL RIPPLE: 8.5% [SAFE DC]", 20, 50);
+            ctx.fillText("STROBE FREQ: 100 Hz", 20, 70);
+            ctx.fillText("SPECTRUM: 4,200K (BALANCED)", w - 240, 30);
+        }
+
+        function renderChrono(w, h) {
+            const midY = h * 0.45;
+            // Tuning Dial Bar
+            ctx.fillStyle = "#141c2b";
+            ctx.fillRect(40, midY - 30, w - 80, 60);
+            ctx.strokeStyle = "#ffb800";
+            ctx.strokeRect(40, midY - 30, w - 80, 60);
+
+            // Frequency ticks
+            for (let x = 60; x <= w - 60; x += (w - 120) / 20) {
+                ctx.strokeStyle = "rgba(255, 184, 0, 0.5)";
+                ctx.beginPath(); ctx.moveTo(x, midY - 15); ctx.lineTo(x, midY + 15); ctx.stroke();
+            }
+
+            // Needle
+            chronoNeedle = 0.5 + Math.sin(Date.now() * 0.001) * 0.35;
+            const needleX = 60 + chronoNeedle * (w - 120);
+            ctx.strokeStyle = "#ff3344";
+            ctx.lineWidth = 3;
+            ctx.beginPath(); ctx.moveTo(needleX, midY - 26); ctx.lineTo(needleX, midY + 26); ctx.stroke();
+
+            // Lissajous curve
+            ctx.strokeStyle = "#ffb800";
+            ctx.lineWidth = 2;
+            ctx.beginPath();
+            for (let x = 40; x < w - 40; x += 4) {
+                const y = (h * 0.78) + Math.sin((x * 0.03) + Date.now() * 0.003) * 20;
+                if (x === 40) ctx.moveTo(x, y); else ctx.lineTo(x, y);
+            }
+            ctx.stroke();
+
+            ctx.fillStyle = "#ffb800";
+            ctx.font = "12px monospace";
+            ctx.fillText("EPOCH: KYOTO SANCTUARY (1600 CE)", 20, 30);
+            ctx.fillText("CARRIER: 136.10 Hz (SOLFEGGIO)", 20, 50);
+            ctx.fillText("BINAURAL BEAT: 6.00 Hz THETA", 20, 70);
+            ctx.fillText("CROSS-WAVE SYNERGY: ACTIVE", w - 240, 30);
+        }
+
+        render();
+    </script>
+</body>
+</html>

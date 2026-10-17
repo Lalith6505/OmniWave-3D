@@ -1,0 +1,325 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Privacy Policy - OmniWave 3D | Quantum Sensory Lab</title>
+    <meta name="description" content="Official Privacy Policy for OmniWave 3D: Quantum Sensory Lab & Acoustic Chrono-Scanner developed by Lalith Madanayake. 100% Offline Native and Zero Data Collection.">
+    <link rel="icon" type="image/png" href="icon_512.png">
+    <style>
+        :root {
+            --bg-deep: #090d14;
+            --bg-card: #0e131e;
+            --bg-surface: #141c2b;
+            --border-color: #26354d;
+            --text-main: #f1f5f9;
+            --text-muted: #94a3b8;
+            --text-dim: #64748b;
+            --phosphor-green: #00ff66;
+            --amber-glow: #ff9900;
+            --cyber-cyan: #00e5ff;
+            --brass-gold: #ffb800;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+            background-color: var(--bg-deep);
+            color: var(--text-main);
+            line-height: 1.7;
+            padding: 0;
+        }
+
+        /* Ambient phosphor glow & grid */
+        body::before {
+            content: "";
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: 
+                radial-gradient(circle at 20% 15%, rgba(0, 255, 102, 0.04) 0%, transparent 50%),
+                radial-gradient(circle at 80% 85%, rgba(0, 229, 255, 0.04) 0%, transparent 50%),
+                linear-gradient(rgba(38, 53, 77, 0.15) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(38, 53, 77, 0.15) 1px, transparent 1px);
+            background-size: 100% 100%, 100% 100%, 40px 40px, 40px 40px;
+            pointer-events: none;
+            z-index: -1;
+        }
+
+        .navbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 18px 32px;
+            background: rgba(14, 19, 30, 0.85);
+            backdrop-filter: blur(12px);
+            border-bottom: 1px solid var(--border-color);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .brand {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            text-decoration: none;
+            color: var(--text-main);
+            font-family: "Courier New", Courier, monospace;
+            font-weight: bold;
+            font-size: 1.1rem;
+            letter-spacing: 1px;
+        }
+
+        .brand img {
+            width: 36px;
+            height: 36px;
+            border-radius: 8px;
+            border: 1px solid var(--brass-gold);
+        }
+
+        .nav-btn {
+            background: transparent;
+            color: var(--brass-gold);
+            border: 1px solid var(--brass-gold);
+            padding: 8px 16px;
+            border-radius: 6px;
+            font-size: 0.9rem;
+            text-decoration: none;
+            font-family: monospace;
+            transition: all 0.2s ease;
+        }
+
+        .nav-btn:hover {
+            background: var(--brass-gold);
+            color: var(--bg-deep);
+            box-shadow: 0 0 12px rgba(255, 184, 0, 0.4);
+        }
+
+        .container {
+            max-width: 860px;
+            margin: 40px auto;
+            padding: 0 24px 60px;
+        }
+
+        .header-card {
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
+            border-left: 4px solid var(--phosphor-green);
+            border-radius: 12px;
+            padding: 28px;
+            margin-bottom: 32px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.4);
+        }
+
+        .badge {
+            display: inline-block;
+            background: rgba(0, 255, 102, 0.12);
+            color: var(--phosphor-green);
+            padding: 4px 12px;
+            border-radius: 4px;
+            font-size: 0.8rem;
+            font-family: monospace;
+            font-weight: bold;
+            margin-bottom: 12px;
+            border: 1px solid rgba(0, 255, 102, 0.3);
+        }
+
+        h1 {
+            font-size: 2.1rem;
+            font-weight: 700;
+            color: #ffffff;
+            margin-bottom: 8px;
+            letter-spacing: -0.5px;
+        }
+
+        .meta {
+            font-size: 0.9rem;
+            color: var(--text-muted);
+            font-family: monospace;
+        }
+
+        .section-card {
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            padding: 24px;
+            margin-bottom: 24px;
+        }
+
+        h2 {
+            font-size: 1.25rem;
+            color: var(--brass-gold);
+            margin-bottom: 14px;
+            font-family: monospace;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        p {
+            color: var(--text-muted);
+            margin-bottom: 14px;
+        }
+
+        ul {
+            padding-left: 20px;
+            margin-bottom: 14px;
+            color: var(--text-muted);
+        }
+
+        li {
+            margin-bottom: 10px;
+        }
+
+        strong {
+            color: var(--text-main);
+        }
+
+        .highlight-box {
+            background: var(--bg-surface);
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            padding: 16px;
+            margin: 16px 0;
+            font-size: 0.95rem;
+        }
+
+        .developer-card {
+            background: linear-gradient(135deg, rgba(20, 28, 43, 0.8), rgba(14, 19, 30, 0.9));
+            border: 1px solid var(--border-color);
+            border-top: 3px solid var(--cyber-cyan);
+            border-radius: 12px;
+            padding: 24px;
+            margin-top: 32px;
+        }
+
+        footer {
+            text-align: center;
+            padding: 32px;
+            border-top: 1px solid var(--border-color);
+            color: var(--text-dim);
+            font-size: 0.85rem;
+            font-family: monospace;
+        }
+
+        @media (max-width: 600px) {
+            .navbar { padding: 14px 18px; }
+            h1 { font-size: 1.7rem; }
+            .header-card, .section-card { padding: 18px; }
+        }
+    </style>
+</head>
+<body>
+
+    <nav class="navbar">
+        <a href="index.html" class="brand">
+            <img src="icon_512.png" alt="OmniWave 3D Icon">
+            <span>OMNIWAVE 3D</span>
+        </a>
+        <a href="index.html" class="nav-btn">← Back to Terminal</a>
+    </nav>
+
+    <div class="container">
+
+        <div class="header-card">
+            <div class="badge">LEGAL COMPLIANCE // GOOGLE PLAY DISCLOSURE</div>
+            <h1>Privacy Policy</h1>
+            <div class="meta">
+                Application: <strong>OmniWave 3D: Quantum Sensory Lab</strong><br>
+                Package ID: <code>com.omniwave.sensorylab</code><br>
+                Effective Date: October 18, 2026 | Version: 1.0.0
+            </div>
+        </div>
+
+        <div class="section-card">
+            <h2>1. Zero Data Collection Architecture</h2>
+            <p>
+                <strong>OmniWave 3D</strong> is engineered by <strong>Lalith Madanayake</strong> as a strictly <strong>100% offline-native physics instrument and sensory laboratory</strong>. We believe in absolute user sovereignty and total digital privacy.
+            </p>
+            <div class="highlight-box">
+                <span style="color: var(--phosphor-green); font-weight: bold;">✔ Zero Telemetry:</span> We do not collect, transmit, store, sell, or analyze any personal data, usage metrics, location points, or device identifiers. The application operates entirely disconnected from any external servers or cloud services.
+            </div>
+        </div>
+
+        <div class="section-card">
+            <h2>2. On-Device Sensor Permissions & Processing</h2>
+            <p>To provide real-time scientific oscilloscopes and acoustic echolocation, OmniWave 3D requires access to specific device hardware sensors. All computations take place entirely in volatile, temporary RAM and are discarded immediately:</p>
+            
+            <ul>
+                <li>
+                    <strong>Microphone (RECORD_AUDIO):</strong> Used exclusively for active ultrasonic acoustic echolocation (19.2 kHz acoustic pings) and Doppler air-gesture velocity calculations. <strong>No ambient audio or voice is ever recorded, stored to local files, or broadcast over the network</strong>. If microphone permission is declined, the application seamlessly activates an internal acoustic physics simulation model so that radar visuals remain fully operational.
+                </li>
+                <li>
+                    <strong>Accelerometer & Motion Sensors:</strong> High-speed 400 Hz MEMS kinetic sampling utilized solely to run the Butterworth gravity-isolation filter, detect tabletop surface micro-tremors, analyze machinery RPM vibration harmonics, and drive the "Stealth Table" game loop. Sensor readings are never persisted to disk.
+                </li>
+                <li>
+                    <strong>Ambient Light Sensor:</strong> Utilized exclusively to compute optical ripple modulation, identify 100Hz/120Hz AC mains ballast flicker, and estimate circadian Kelvin color temperatures.
+                </li>
+                <li>
+                    <strong>Haptic Motor & Vibrator (VIBRATE):</strong> Used purely to generate mechanical gear ratchet ticks, heavy rotary detents, and sonar echo impulses.
+                </li>
+            </ul>
+        </div>
+
+        <div class="section-card">
+            <h2>3. Third-Party Services & Network Traffic</h2>
+            <p>OmniWave 3D guarantees a clean, unmonitored environment:</p>
+            <ul>
+                <li><strong>Zero Advertisements:</strong> No third-party ad networks, banners, or interstitials.</li>
+                <li><strong>Zero Tracking SDKs:</strong> No Google Firebase Analytics, Adjust, AppsFlyer, Facebook SDK, or Crashlytics tracking.</li>
+                <li><strong>Zero Cloud Infrastructure:</strong> The Android Manifest intentionally omits the <code>android.permission.INTERNET</code> permission, guaranteeing that the app cannot communicate with external servers even if attempted.</li>
+            </ul>
+        </div>
+
+        <div class="section-card">
+            <h2>4. Children’s Privacy (COPPA & GDPR-K Compliance)</h2>
+            <p>
+                Because OmniWave 3D does not collect any personally identifiable information from any user, it is fully safe for audiences of all ages, including children under the age of 13. We fully comply with the Children’s Online Privacy Protection Act (COPPA), the EU General Data Protection Regulation (GDPR), and Google Play’s Families Policy.
+            </p>
+        </div>
+
+        <div class="section-card">
+            <h2>5. Local Storage & App Preferences</h2>
+            <p>
+                The application only saves user-configurable preferences locally on your physical device using Android's standard <code>SharedPreferences</code>:
+            </p>
+            <ul>
+                <li>Sound toggle (Mute / Unmute)</li>
+                <li>Haptic feedback toggle (Enable / Disable)</li>
+                <li>Stealth Table party game personal best survival duration</li>
+                <li>Selected CRT phosphor color theme</li>
+            </ul>
+            <p>This data never leaves your device and is permanently purged when the application is uninstalled.</p>
+        </div>
+
+        <div class="developer-card">
+            <h2>6. Developer & Contact Information</h2>
+            <p>
+                For any inquiries, questions, or clarification regarding this Privacy Policy or OmniWave 3D, you may contact the lead engineer directly:
+            </p>
+            <div style="font-family: monospace; font-size: 0.95rem; line-height: 1.8; color: var(--text-main);">
+                <strong>Engineer & Creator:</strong> Lalith Madanayake<br>
+                <strong>Organization:</strong> Mobile Applications Development<br>
+                <strong>Location:</strong> Colombo, Western Province, Sri Lanka<br>
+                <strong>Email:</strong> <a href="mailto:lmadanayake@gmail.com" style="color: var(--cyber-cyan); text-decoration: none;">lmadanayake@gmail.com</a><br>
+                <strong>Phone:</strong> +94 777 210 775
+            </div>
+        </div>
+
+    </div>
+
+    <footer>
+        &copy; 2026 Lalith Madanayake. All rights reserved. OmniWave 3D is a trademark of Lalith Madanayake.<br>
+        100% Offline Native &middot; Target Android 16 (SDK 36) &middot; Procedural 16-Bit Audio Engine
+    </footer>
+
+</body>
+</html>
